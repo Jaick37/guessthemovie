@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Movie Guess Game</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- JOIN SCREEN -->
+  <div id="joinScreen" class="join-screen">
+    <h1 class="join-title">🎬 Movie Guess</h1>
+
+    <input id="playerName" class="join-input" placeholder="Enter your name">
+
+    <p class="avatar-text">Choose your avatar</p>
+
+    <div class="avatar-grid">
+  <div class="avatar" onclick="selectAvatar('avatars/avatar1.jpg', this)">
+  <img src="avatars/avatar1.jpg">
+</div>
+
+<div class="avatar" onclick="selectAvatar('avatars/avatar2.jpg', this)">
+  <img src="avatars/avatar2.jpg">
+</div>
+
+<div class="avatar" onclick="selectAvatar('avatars/avatar3.jpg', this)">
+  <img src="avatars/avatar3.jpg">
+</div>
+
+<div class="avatar" onclick="selectAvatar('avatars/avatar4.jpg', this)">
+  <img src="avatars/avatar4.jpg">
+</div>
+
+<div class="avatar" onclick="selectAvatar('avatars/avatar5.jpg', this)">
+  <img src="avatars/avatar5.jpg">
+</div>
+    </div>
+
+
+    <button class="join-btn" onclick="joinGame()">Join Room</button>
+  </div>
+
+  <!-- GAME SCREEN -->
+  <div id="gameScreen" class="game-wrapper hidden">
+
+    <div class="game-container">
+      <h1 class="title">🎬 Guess The Movie</h1>
+
+      <div class="scene-card">
+        <img id="scene" src="">
+      </div>
+
+      <div id="timer" class="timer">Time: 0s</div>
+
+      <input id="answer" class="answer-box" placeholder="Type movie name...">
+      <button onclick="checkAnswer()" class="submit-btn">Submit</button>
+
+      <p id="result" class="result-text"></p>
+    </div>
+
+    <div class="player-panel">
+      <h3>🎮 Players (Max 5)</h3>
+      <ul id="playerList"></ul>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+
+</html>
