@@ -8,8 +8,9 @@ const clueText = document.getElementById("clueText");
 const socket = io(
   location.hostname === "localhost"
     ? "http://localhost:3000"
-    : "https://YOUR_RENDER_URL.onrender.com"
+    : "https://guessthemovie-nh83.onrender.com"
 );
+
 
 
 socket.on("connect", () => {
