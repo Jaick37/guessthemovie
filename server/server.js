@@ -87,7 +87,7 @@ io.on("connection", (socket) => {
         gameStarted: false,
 
         currentRound: 0,
-        maxRounds: 2,
+        maxRounds: 5,
         usedMovies: [],
 
         movie: null,
