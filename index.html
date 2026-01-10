@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>Movie Guess Game</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
   <!-- JOIN SCREEN -->
@@ -15,29 +17,31 @@
     <p class="avatar-text">Choose your avatar</p>
 
     <div class="avatar-grid">
-  <div class="avatar" onclick="selectAvatar('avatars/avatar1.jpg', this)">
-  <img src="avatars/avatar1.jpg">
-</div>
-
-<div class="avatar" onclick="selectAvatar('avatars/avatar2.jpg', this)">
-  <img src="avatars/avatar2.jpg">
-</div>
-
-<div class="avatar" onclick="selectAvatar('avatars/avatar3.jpg', this)">
-  <img src="avatars/avatar3.jpg">
-</div>
-
-<div class="avatar" onclick="selectAvatar('avatars/avatar4.jpg', this)">
-  <img src="avatars/avatar4.jpg">
-</div>
-
-<div class="avatar" onclick="selectAvatar('avatars/avatar5.jpg', this)">
-  <img src="avatars/avatar5.jpg">
-</div>
+      <div class="avatar" onclick="selectAvatar('avatars/avatar1.jpg', this)">
+        <img src="avatars/avatar1.jpg">
+      </div>
+      <div class="avatar" onclick="selectAvatar('avatars/avatar2.jpg', this)">
+        <img src="avatars/avatar2.jpg">
+      </div>
+      <div class="avatar" onclick="selectAvatar('avatars/avatar3.jpg', this)">
+        <img src="avatars/avatar3.jpg">
+      </div>
+      <div class="avatar" onclick="selectAvatar('avatars/avatar4.jpg', this)">
+        <img src="avatars/avatar4.jpg">
+      </div>
+      <div class="avatar" onclick="selectAvatar('avatars/avatar5.jpg', this)">
+        <img src="avatars/avatar5.jpg">
+      </div>
     </div>
 
+    <input
+      id="roomCodeInput"
+      class="join-input"
+      placeholder="Room code (optional)"
+    >
 
-    <button class="join-btn" onclick="joinGame()">Join Room</button>
+   <button class="join-btn" id="joinBtn">Join Room</button>
+
   </div>
 
   <!-- GAME SCREEN -->
@@ -46,14 +50,29 @@
     <div class="game-container">
       <h1 class="title">🎬 Guess The Movie</h1>
 
+      <div id="roomCodeDisplay" class="room-code"></div>
+
+      <!-- HOST ONLY -->
+      <button id="startBtn" onclick="startGame()" style="display:none">
+        ▶ Start Game
+      </button>
+
       <div class="scene-card">
         <img id="scene" src="">
       </div>
 
       <div id="timer" class="timer">Time: 0s</div>
+      <p id="clueText" class="clue-text"></p>
 
-      <input id="answer" class="answer-box" placeholder="Type movie name...">
-      <button onclick="checkAnswer()" class="submit-btn">Submit</button>
+
+      <input
+        id="answer"
+        class="answer-box"
+        placeholder="Type movie name..."
+      >
+      <button onclick="checkAnswer()" class="submit-btn">
+        Submit
+      </button>
 
       <p id="result" class="result-text"></p>
     </div>
@@ -64,9 +83,23 @@
     </div>
 
   </div>
+  <!-- WINNER SCREEN -->
+<div id="winnerScreen" class="winner-screen hidden">
+  <h1>🏆 Game Over</h1>
 
+  <h2 id="winnerName"></h2>
+
+ <ul id="finalLeaderboard" class="leaderboard"></ul>
+
+
+  <button id="playAgainBtn">🔁 Play Again</button>
+
+</div>
+
+
+  <!-- IMPORTANT: Socket.io MUST load before script.js -->
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
   <script src="script.js"></script>
+
 </body>
-
-
 </html>

@@ -159,11 +159,31 @@ body {
 .avatar-text {
   margin: 10px 0;
 }
+#startBtn {
+  padding: 10px 20px;
+  font-size: 16px;
+  background: #00ffd5;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+#startBtn:hover {
+  background: #00c9aa;
+}
+
 
 .avatar-grid {
   display: flex;
   gap: 15px;
   margin-bottom: 20px;
+}
+.room-code {
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: #00ffd5;
+  letter-spacing: 2px;
 }
 
 .avatar {
@@ -207,3 +227,38 @@ body {
   vertical-align: middle;
 }
 
+.winner-screen {
+  text-align: center;
+  padding: 40px;
+}
+@keyframes fall {
+  to {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+.leaderboard {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.leaderboard li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #1e1e1e;
+  margin: 10px auto;
+  padding: 12px 16px;
+  width: 300px;
+  border-radius: 10px;
+  font-size: 16px;
+}
+
+.leaderboard li.winner {
+  background: linear-gradient(90deg, gold, orange);
+  color: black;
+  font-weight: bold;
+  transform: scale(1.05);
+}
