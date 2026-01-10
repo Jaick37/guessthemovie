@@ -5,7 +5,12 @@ console.log("script.js loaded");
 const clueText = document.getElementById("clueText");
 
 
-const socket = io("http://localhost:3000");
+const socket = io(
+  location.hostname === "localhost"
+    ? "http://localhost:3000"
+    : "https://YOUR_RENDER_URL.onrender.com"
+);
+
 
 socket.on("connect", () => {
   console.log("Connected to server:", socket.id);
