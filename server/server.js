@@ -10,57 +10,30 @@ const io = new Server(server, { cors: { origin: "*" } });
  * SCENE POOL
  **********************/
 const SCENE_POOL = [
-  {
-    movie: "the dark knight",
-    folder: "darkknight",
-    totalScenes: 3
-  },
-  {
-    movie: "forrest gump",
-    folder: "forrestgump",
-    totalScenes: 3
-  },
-  {
-    movie: "goodfellas",
-    folder: "goodfellas",
-    totalScenes: 3
-  },
-  {
-    movie: "inception",
-    folder: "inception",
-    totalScenes: 3
-  },
-  {
-    movie: "interstellar",
-    folder: "interstellar",
-    totalScenes: 3
-  },
-  {
-    movie: "pulp fiction",
-    folder: "pulpfiction",
-    totalScenes: 3
-  },
+  { movie: "12 angry men", folder: "12angrymen", totalScenes: 3 },
+  { movie: "the dark knight", folder: "darkknight", totalScenes: 3 },
+  { movie: "drishyam", folder: "drishyam", totalScenes: 3 },
+  { movie: "fight club", folder: "fightclub", totalScenes: 3 },
+  { movie: "forrest gump", folder: "forrestgump", totalScenes: 3 },
+  { movie: "goodfellas", folder: "goodfellas", totalScenes: 3 },
+  { movie: "inception", folder: "inception", totalScenes: 3 },
+  { movie: "interstellar", folder: "interstellar", totalScenes: 3 },
+  { movie: "kill bill", folder: "killbill", totalScenes: 3 },
+  { movie: "kumbalangi nights", folder: "kumbalanginights", totalScenes: 3 },
+  { movie: "lucifer", folder: "lucifer", totalScenes: 3 },
+  { movie: "pulp fiction", folder: "pulpfiction", totalScenes: 3 },
   {
     movie: "the shawshank redemption",
     folder: "theshawshankredemption",
     totalScenes: 3
   },
-  {
-    movie: "fight club",
-    folder: "fightclub",
-    totalScenes: 3
-  },
-  {
-    movie: "kill bill",
-    folder: "killbill",
-    totalScenes: 3
-  },
-  {
-    movie: "12 angry men",
-    folder: "12angrymen",
-    totalScenes: 3
-  }
+  { movie: "premalu", folder: "premalu", totalScenes: 3 },
+  { movie: "manjummel boys", folder: "manjummelboys", totalScenes: 3 },
+  { movie: "aavesham", folder: "aavesham", totalScenes: 3 },
+  { movie: "thudarum", folder: "thudarum", totalScenes: 3 },
+  { movie: "coolie", folder: "coolie", totalScenes: 3 }
 ];
+
 
 
 /**********************
@@ -200,18 +173,31 @@ function startNextMovie(room, roomCode) {
     m => !room.usedMovies.includes(m.movie)
   );
 
-  const movie = remaining[Math.floor(Math.random() * remaining.length)];
-  room.usedMovies.push(movie.movie);
+  if (remaining.length === 0) {
+    io.to(roomCode).emit("game-over", {
+      players: room.players
+    });
+    room.gameStarted = false;
+    return;
+  }
 
-  room.movie = movie;
+  const selectedMovie =
+    remaining[Math.floor(Math.random() * remaining.length)];
+
+  room.usedMovies.push(selectedMovie.movie);
+
+  room.movie = selectedMovie;
   room.sceneIndex = 1;
   room.elapsedTime = 0;
   room.revealedLetters = 0;
   room.clue = "";
   room.gameStarted = true;
 
+  console.log("🎬 Selected movie:", selectedMovie.movie);
+
   startTimer(room, roomCode);
 }
+
 
 function startTimer(room, roomCode) {
   if (room.timer) clearInterval(room.timer);
