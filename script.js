@@ -4,12 +4,26 @@
 console.log("script.js loaded");
 const clueText = document.getElementById("clueText");
 
+const isLocal =
+  location.hostname === "localhost" ||
+  location.hostname === "127.0.0.1";
 
 const socket = io(
-  location.hostname === "localhost"
+  isLocal
     ? "http://localhost:3000"
     : "https://guessthemovie-nh83.onrender.com"
 );
+
+/**********************
+ * AUDIO
+ **********************/
+const bgMusic = new Audio("sounds/bg.mp3");
+bgMusic.loop = true;
+bgMusic.volume = 0.25;
+
+const correctSound = new Audio("sounds/correct.mp3");
+const wrongSound = new Audio("sounds/wrong.mp3");
+const winSound = new Audio("sounds/win.mp3");
 
 
 
@@ -107,6 +121,7 @@ socket.on("lobby-update", (data) => {
  **********************/
 function startGame() {
   console.log("Host started game");
+  bgMusic.play().catch(() => {});
   socket.emit("start-game", currentRoomCode);
 }
 
@@ -114,17 +129,17 @@ function startGame() {
  * GAME STATE (SERVER)
  **********************/
 socket.on("game-state", (state) => {
-    if (elapsedTime === 0) {
-  clueText.innerText = "";
-}
+  // Reset clue ONLY when server timer resets
+  if (state.elapsedTime === 1) {
+    clueText.innerText = "";
+  }
 
   selectedMovie = state.movie;
   currentSceneIndex = state.sceneIndex;
   elapsedTime = state.elapsedTime;
 
   timerText.innerText = `Time: ${elapsedTime}s`;
-  sceneImg.src =
-    `scenes/${selectedMovie.folder}/${currentSceneIndex}.jpg`;
+  sceneImg.src = `scenes/${selectedMovie.folder}/${currentSceneIndex}.jpg`;
 
   if (state.clue && state.clue.length > 0) {
     clueText.innerText = "Clue: " + state.clue;
@@ -134,25 +149,30 @@ socket.on("game-state", (state) => {
     resultText.innerText =
       `⏱ Game Over! Answer: ${selectedMovie.movie}`;
   }
-
-  
-
 });
+
 
 /**********************
  * ANSWER RESULT (SERVER)  ✅ STEP 3
  **********************/
 socket.on("answer-result", (data) => {
   if (data.correct) {
+    correctSound.currentTime = 0;
+    correctSound.play();
+
     resultText.innerText =
       `🎉 ${data.playerName} guessed correctly!`;
 
     players = data.players;
     renderPlayers();
   } else {
+    wrongSound.currentTime = 0;
+    wrongSound.play();
+
     resultText.innerText = "❌ Wrong answer";
   }
 });
+
 
 
 
@@ -235,6 +255,12 @@ if (playAgainBtn) {
 }
 
 socket.on("game-over", ({ players }) => {
+  bgMusic.pause();
+bgMusic.currentTime = 0;
+
+winSound.currentTime = 0;
+winSound.play();
+
   document.getElementById("gameScreen").classList.add("hidden");
 
   const winnerScreen = document.getElementById("winnerScreen");
