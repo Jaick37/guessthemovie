@@ -137,7 +137,14 @@ socket.on("game-state", (state) => {
   selectedMovie = state.movie;
   currentSceneIndex = state.sceneIndex;
   elapsedTime = state.elapsedTime;
+  if (!selectedMovie || !selectedMovie.folder) {
+    console.error("Invalid movie from server", selectedMovie);
+    return;
+  }
 
+  if (elapsedTime === 0) {
+    clueText.innerText = "";
+  }
   timerText.innerText = `Time: ${elapsedTime}s`;
   sceneImg.src = `scenes/${selectedMovie.folder}/${currentSceneIndex}.jpg`;
 

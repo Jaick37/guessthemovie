@@ -229,13 +229,19 @@ function startTimer(room, roomCode) {
       return;
     }
 
-    io.to(roomCode).emit("game-state", {
-      movie: room.movie,
-      sceneIndex: room.sceneIndex,
-      elapsedTime: room.elapsedTime,
-      clue: room.clue,
-      gameOver: false
-    });
+   if (!room.movie || !room.movie.folder) {
+  console.error("❌ Invalid movie object", room.movie);
+  return;
+}
+
+io.to(roomCode).emit("game-state", {
+  movie: room.movie,
+  sceneIndex: room.sceneIndex,
+  elapsedTime: room.elapsedTime,
+  clue: room.clue,
+  gameOver: false
+});
+
   }, 1000);
 }
 
